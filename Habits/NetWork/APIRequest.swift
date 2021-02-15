@@ -62,7 +62,7 @@ extension APIRequest where Response: Decodable {
                     completion(.failure(error))
                 }
             } catch {
- 
+                
             }
         }.resume()
     }

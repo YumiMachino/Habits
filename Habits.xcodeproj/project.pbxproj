@@ -23,6 +23,10 @@
 		AE4A681D25D9C79500FCE650 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4A681C25D9C79500FCE650 /* Color.swift */; };
 		AE4A682225D9E68A00FCE650 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4A682125D9E68A00FCE650 /* APIRequest.swift */; };
 		AE4A682625D9E98C00FCE650 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE4A682525D9E98C00FCE650 /* APIService.swift */; };
+		AE8A176325DB161D002B0BE8 /* PrimarySecondaryTextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8A176225DB161D002B0BE8 /* PrimarySecondaryTextCollectionViewCell.swift */; };
+		AE8A176625DB1AB3002B0BE8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8A176525DB1AB3002B0BE8 /* Settings.swift */; };
+		AE8A176A25DB1C8A002B0BE8 /* UICollectionViewDiffableDataSource+ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8A176925DB1C8A002B0BE8 /* UICollectionViewDiffableDataSource+ViewModel.swift */; };
+		AE8A176F25DB2029002B0BE8 /* NamedSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8A176E25DB2029002B0BE8 /* NamedSectionHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +48,10 @@
 		AE4A681C25D9C79500FCE650 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		AE4A682125D9E68A00FCE650 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		AE4A682525D9E98C00FCE650 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		AE8A176225DB161D002B0BE8 /* PrimarySecondaryTextCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimarySecondaryTextCollectionViewCell.swift; sourceTree = "<group>"; };
+		AE8A176525DB1AB3002B0BE8 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		AE8A176925DB1C8A002B0BE8 /* UICollectionViewDiffableDataSource+ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionViewDiffableDataSource+ViewModel.swift"; sourceTree = "<group>"; };
+		AE8A176E25DB2029002B0BE8 /* NamedSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedSectionHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +87,10 @@
 				AE4A67EF25D9B85100FCE650 /* AppDelegate.swift */,
 				AE4A67F125D9B85100FCE650 /* SceneDelegate.swift */,
 				AE4A67F525D9B85100FCE650 /* Main.storyboard */,
+				AE8A176D25DB1FF4002B0BE8 /* CollectionViewCell */,
+				AE8A176525DB1AB3002B0BE8 /* Settings.swift */,
+				AE8A177125DB202D002B0BE8 /* ReusableView */,
+				AE8A176925DB1C8A002B0BE8 /* UICollectionViewDiffableDataSource+ViewModel.swift */,
 				AE4A682825D9EA7E00FCE650 /* NetWork */,
 				AE4A681F25D9C7BB00FCE650 /* Model */,
 				AE4A682925D9EA9300FCE650 /* DetailVC */,
@@ -127,6 +139,22 @@
 				AE4A680D25D9C4D700FCE650 /* LogHabitCollectionViewController.swift */,
 			);
 			path = MainCollectionVC;
+			sourceTree = "<group>";
+		};
+		AE8A176D25DB1FF4002B0BE8 /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				AE8A176225DB161D002B0BE8 /* PrimarySecondaryTextCollectionViewCell.swift */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		AE8A177125DB202D002B0BE8 /* ReusableView */ = {
+			isa = PBXGroup;
+			children = (
+				AE8A176E25DB2029002B0BE8 /* NamedSectionHeaderView.swift */,
+			);
+			path = ReusableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,13 +228,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE4A680E25D9C4D700FCE650 /* LogHabitCollectionViewController.swift in Sources */,
+				AE8A176A25DB1C8A002B0BE8 /* UICollectionViewDiffableDataSource+ViewModel.swift in Sources */,
+				AE8A176F25DB2029002B0BE8 /* NamedSectionHeaderView.swift in Sources */,
 				AE4A681425D9C5F200FCE650 /* UserDetailViewController.swift in Sources */,
 				AE4A680525D9C4AC00FCE650 /* HomeCollectionViewController.swift in Sources */,
 				AE4A680825D9C4BE00FCE650 /* HabitCollectionViewController.swift in Sources */,
 				AE4A681D25D9C79500FCE650 /* Color.swift in Sources */,
 				AE4A681125D9C5E100FCE650 /* HabitDetailViewController.swift in Sources */,
 				AE4A681725D9C74300FCE650 /* Habit.swift in Sources */,
+				AE8A176325DB161D002B0BE8 /* PrimarySecondaryTextCollectionViewCell.swift in Sources */,
 				AE4A67F025D9B85100FCE650 /* AppDelegate.swift in Sources */,
+				AE8A176625DB1AB3002B0BE8 /* Settings.swift in Sources */,
 				AE4A67F225D9B85100FCE650 /* SceneDelegate.swift in Sources */,
 				AE4A682625D9E98C00FCE650 /* APIService.swift in Sources */,
 				AE4A680B25D9C4C900FCE650 /* UserCollectionViewController.swift in Sources */,
