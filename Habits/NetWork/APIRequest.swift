@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol APIRequest {
     ///represents the type of object returned by a request
@@ -66,4 +67,39 @@ extension APIRequest where Response: Decodable {
             }
         }.resume()
     }
+}
+
+enum ImageRequestError: Error {
+    case couldNotInitializeFromData
+}
+
+extension APIRequest where Response == UIImage {
+    func send(completion: @escaping (Result<Self.Response, Error>) ->
+       Void) {
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let data = data,
+                let image = UIImage(data: data) {
+                completion(.success(image))
+            } else if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.failure(ImageRequestError
+                   .couldNotInitializeFromData))
+            }
+        }.resume()
+    }
+}
+
+extension APIRequest {
+    func send(completion: @escaping (Error?) -> Void) {
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            completion(error)
+        }.resume()
+    }
+} 
+
+struct CombinedStatisticsRequest: APIRequest {
+    typealias Response = CombinedStatistics
+
+    var path: String { "/combinedStats" }
 }

@@ -30,6 +30,18 @@ class HabitCollectionViewController: UICollectionViewController {
                         return false
                     }
             }
+            
+            var sectionColor: UIColor {
+                switch self {
+                case .favorites:
+                    return UIColor(hue: 0.15, saturation: 1, brightness: 0.9,
+                       alpha: 1)
+                case .category(let category):
+                    return category.color.uiColor
+                }
+            }
+            
+            
         }
         
         struct Item: Hashable, Equatable, Comparable {
@@ -67,6 +79,9 @@ class HabitCollectionViewController: UICollectionViewController {
            withReuseIdentifier: sectionHeaderIdentifier)
     }
 
+    
+    
+    
     
     
     
@@ -122,23 +137,7 @@ class HabitCollectionViewController: UICollectionViewController {
           return cell
         })
         
-//
-//        let dataSource = DataSourceType(collectionView: collectionView) {
-//           (collectionView, indexPath, item) in
-//
-//            let cell =
-//               collectionView.dequeueReusableCell(withReuseIdentifier:
-//               "Habit", for: indexPath) as!
-//               PrimarySecondaryTextCollectionViewCell
-//
-//            cell.primaryTextLabel.text = item.habit.name
-//
-//            return cell
-//        }
-//
-//        return dataSource
-//
-//
+
         
         dataSource.supplementaryViewProvider = { (collectionView, kind,
            indexPath) -> UICollectionReusableView? in
@@ -152,7 +151,7 @@ class HabitCollectionViewController: UICollectionViewController {
             case .category(let category):
                 header.nameLabel.text = category.name
             }
-
+            header.backgroundColor = section.sectionColor
             return header
         }
         return dataSource
@@ -187,6 +186,18 @@ class HabitCollectionViewController: UICollectionViewController {
     
         return UICollectionViewCompositionalLayout(section: section)
     }
+    
+    
+    @IBSegueAction func showHabitDetail(_ coder: NSCoder, sender: UICollectionViewCell?) -> HabitDetailViewController? {
+        guard let cell = sender,
+                let indexPath = collectionView.indexPath(for: cell),
+                let item = dataSource.itemIdentifier(for: indexPath) else {
+                return nil
+            }
+        
+        return HabitDetailViewController(coder: coder, habit: item.habit)
+    }
+    
  
 }
 
@@ -221,4 +232,8 @@ extension HabitCollectionViewController {
         
         return config
     }
+    
+    
+    
+    
 }

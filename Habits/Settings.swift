@@ -12,6 +12,7 @@ struct Settings {
     
     private let defaults = UserDefaults.standard
     
+    let currentUser = User(id: "activeUser", name: "Yumi Machino", color: nil, bio: nil)
     
     private func archiveJSON<T: Encodable>(value: T, key: String) {
         let data = try! JSONEncoder().encode(value)
@@ -33,12 +34,14 @@ struct Settings {
             return unarchiveJSON(key: Setting.favoriteHabits) ?? []
         }
         set {
-            archiveJSON(value: newValue, key: "favoriteHabits")
+            archiveJSON(value: newValue, key: Setting.favoriteHabits)
         }
     }
     
     enum Setting {
         static let favoriteHabits = "favoriteHabits"
+        static let followedUserIDs = "followedUserIDs"
+        
     }
     
     
@@ -53,6 +56,29 @@ struct Settings {
     
         favoriteHabits = favorites
     }
+    
+    
+    var followedUserIDs: [String] {
+        get {
+            return unarchiveJSON(key: Setting.followedUserIDs) ?? []
+        }
+        set {
+            archiveJSON(value: newValue, key: Setting.followedUserIDs)
+        }
+    }
+    
+    mutating func toggleFollowed(user: User) {
+        var updated = followedUserIDs
+    
+        if updated.contains(user.id) {
+            updated = updated.filter { $0 != user.id }
+        } else {
+            updated.append(user.id)
+        }
+    
+        followedUserIDs = updated
+    }
+    
 }
 
 
