@@ -26,13 +26,13 @@ struct HabitStatisticsRequest: APIRequest {
     typealias Response = [HabitStatistics]
     
     var habitNames: [String]?
-
+    
     var path: String { "/habitStats" }
-
+    
     var queryItems: [URLQueryItem]? {
         if let habitNames = habitNames {
             return [URLQueryItem(name: "names",
-               value: habitNames.joined(separator: ","))]
+                                 value: habitNames.joined(separator: ","))]
         } else {
             return nil
         }
@@ -42,11 +42,11 @@ struct HabitStatisticsRequest: APIRequest {
 
 struct UserStatisticsRequest: APIRequest {
     typealias Response = [UserStatistics]
-
+    
     var userIDs: [String]?
-
+    
     var path: String { "/userStats" }
-
+    
     var queryItems: [URLQueryItem]? {
         if let userIDs = userIDs {
             return [URLQueryItem(name: "ids", value: userIDs.joined(separator: ","))]
@@ -58,27 +58,27 @@ struct UserStatisticsRequest: APIRequest {
 
 struct HabitLeadStatisticsRequest: APIRequest {
     typealias Response = UserStatistics
-
+    
     var userID: String
-
+    
     var path: String { "/userLeadingStats/\(userID)" }
 }
 
 struct ImageRequest: APIRequest {
     typealias Response = UIImage
-
+    
     var imageID: String
-
+    
     var path: String { "/images/" + imageID }
 }
 
 struct LogHabitRequest: APIRequest {
     typealias Response = Void
-
+    
     var trackedEvent: LoggedHabit
-
+    
     var path: String { "/loggedHabit" }
-
+    
     var postData: Data? {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601

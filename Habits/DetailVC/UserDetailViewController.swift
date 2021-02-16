@@ -11,7 +11,7 @@ private let headerIdentifier = "HeaderView"
 private let headerKind = "SectionHeader"
 
 class UserDetailViewController: UIViewController {
-
+    
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var bioLabel: UILabel!
@@ -20,13 +20,13 @@ class UserDetailViewController: UIViewController {
     var user: User!
     
     typealias DataSourceType =
-       UICollectionViewDiffableDataSource<ViewModel.Section, ViewModel.Item>
+        UICollectionViewDiffableDataSource<ViewModel.Section, ViewModel.Item>
     
     enum ViewModel {
         enum Section: Hashable, Comparable {
             case leading
             case category(_ category: Category)
-    
+            
             static func < (lhs: Section, rhs: Section) -> Bool {
                 switch (lhs, rhs) {
                 case (.leading, .category), (.leading, .leading):
@@ -49,7 +49,7 @@ class UserDetailViewController: UIViewController {
             
             
         }
-    
+        
         typealias Item = HabitCount
     }
     
@@ -63,16 +63,16 @@ class UserDetailViewController: UIViewController {
     
     /// periodic update
     var updateTimer: Timer?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         userNameLabel.text = user.name
         bioLabel.text = user.bio
         
         collectionView.register(NamedSectionHeaderView.self,
-           forSupplementaryViewOfKind: headerKind,
-           withReuseIdentifier: headerIdentifier)
+                                forSupplementaryViewOfKind: headerKind,
+                                withReuseIdentifier: headerIdentifier)
         
         dataSource = createDataSource()
         collectionView.dataSource = dataSource
@@ -109,12 +109,12 @@ class UserDetailViewController: UIViewController {
             case .failure:
                 self.model.userStats = nil
             }
-    
+            
             DispatchQueue.main.async {
                 self.updateCollectionView()
             }
         }
-    
+        
         HabitLeadStatisticsRequest(userID: user.id).send { result in
             switch result {
             case .success(let userStats):
@@ -122,7 +122,7 @@ class UserDetailViewController: UIViewController {
             case .failure:
                 self.model.leadingStats = nil
             }
-    
+            
             DispatchQueue.main.async {
                 self.updateCollectionView()
             }
@@ -131,53 +131,53 @@ class UserDetailViewController: UIViewController {
     
     func updateCollectionView() {
         guard let userStatistics = model.userStats,
-            let leadingStatistics = model.leadingStats else { return }
-    
+              let leadingStatistics = model.leadingStats else { return }
+        
         var itemsBySection = userStatistics.habitCounts.reduce(into:
-           [ViewModel.Section: [ViewModel.Item]]()) { partial, habitCount in
+                                                                [ViewModel.Section: [ViewModel.Item]]()) { partial, habitCount in
             let section: ViewModel.Section
-    
+            
             if leadingStatistics.habitCounts.contains(habitCount) {
                 section = .leading
             } else {
                 section = .category(habitCount.habit.category)
             }
-    
+            
             partial[section, default: []].append(habitCount)
         }
-    
+        
         itemsBySection = itemsBySection.mapValues { $0.sorted() }
-    
+        
         let sectionIDs = itemsBySection.keys.sorted()
-    
+        
         dataSource.applySnapshotUsing(sectionIDs: sectionIDs,
-           itemsBySection: itemsBySection)
+                                      itemsBySection: itemsBySection)
     }
     
     
     func createDataSource() -> DataSourceType {
         let dataSource = DataSourceType(collectionView: collectionView) {
-           (collectionView, indexPath, habitStat) -> UICollectionViewCell? in
+            (collectionView, indexPath, habitStat) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
-               "HabitCount", for: indexPath) as!
-               PrimarySecondaryTextCollectionViewCell
-    
+                                                            "HabitCount", for: indexPath) as!
+                PrimarySecondaryTextCollectionViewCell
+            
             cell.primaryTextLabel.text = habitStat.habit.name
             cell.secondaryTextLabel.text = "\(habitStat.count)"
-    
+            
             return cell
         }
-    
+        
         dataSource.supplementaryViewProvider = { (collectionView,
-           category, indexPath) in
+                                                  category, indexPath) in
             let header =
-               collectionView.dequeueReusableSupplementaryView(ofKind:
-                                                                headerKind, withReuseIdentifier: headerIdentifier, for:
-               indexPath) as! NamedSectionHeaderView
-    
+                collectionView.dequeueReusableSupplementaryView(ofKind:
+                                                                    headerKind, withReuseIdentifier: headerIdentifier, for:
+                                                                        indexPath) as! NamedSectionHeaderView
+            
             let section =
-               dataSource.snapshot().sectionIdentifiers[indexPath.section]
-    
+                dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            
             switch section {
             case .leading:
                 header.nameLabel.text = "Leading"
@@ -187,34 +187,34 @@ class UserDetailViewController: UIViewController {
             header.backgroundColor = section.sectionColor
             return header
         }
-    
+        
         return dataSource
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {
         let itemSize =
-           NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-           heightDimension: .fractionalHeight(1))
+            NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                   heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12)
-    
+        
         let groupSize = NSCollectionLayoutSize(widthDimension:
-           .fractionalWidth(1), heightDimension: .absolute(44))
+                                                .fractionalWidth(1), heightDimension: .absolute(44))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:
-           groupSize, subitem: item, count: 1)
-    
+                                                        groupSize, subitem: item, count: 1)
+        
         let headerSize = NSCollectionLayoutSize(widthDimension:
-           .fractionalWidth(1), heightDimension: .absolute(36))
+                                                    .fractionalWidth(1), heightDimension: .absolute(36))
         let sectionHeader =
-           NSCollectionLayoutBoundarySupplementaryItem(layoutSize:
-           headerSize, elementKind: "header", alignment: .top)
+            NSCollectionLayoutBoundarySupplementaryItem(layoutSize:
+                                                            headerSize, elementKind: "header", alignment: .top)
         sectionHeader.pinToVisibleBounds = true
-    
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 20,
-           leading: 0, bottom: 20, trailing: 0)
+                                                        leading: 0, bottom: 20, trailing: 0)
         section.boundarySupplementaryItems = [sectionHeader]
-    
+        
         return UICollectionViewCompositionalLayout(section: section)
     }
 }
@@ -223,12 +223,12 @@ extension UserDetailViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-            update()
+        update()
         
-            updateTimer = Timer.scheduledTimer(withTimeInterval: 1,
-               repeats: true) { _ in
-                self.update()
-            }
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 1,
+                                           repeats: true) { _ in
+            self.update()
+        }
     }
     
     

@@ -18,22 +18,22 @@ class HabitDetailViewController: UIViewController {
     var updateTimer: Timer?
     
     typealias DataSourceType =
-       UICollectionViewDiffableDataSource<ViewModel.Section,
-       ViewModel.Item>
+        UICollectionViewDiffableDataSource<ViewModel.Section,
+                                           ViewModel.Item>
     
     enum ViewModel {
         enum Section: Hashable {
             case leaders(count: Int)
             case remaining
         }
-    
+        
         enum Item: Hashable, Comparable {
             case single(_ stat: UserCount)
             case multiple(_ stats: [UserCount])
-    
+            
             static func < (lhs:
-               HabitDetailViewController.ViewModel.Item,
-               rhs: HabitDetailViewController.ViewModel.Item) -> Bool {
+                            HabitDetailViewController.ViewModel.Item,
+                           rhs: HabitDetailViewController.ViewModel.Item) -> Bool {
                 switch (lhs, rhs) {
                 case (.single(let lCount), .single(let rCount)):
                     return lCount.count < rCount.count
@@ -47,7 +47,7 @@ class HabitDetailViewController: UIViewController {
             }
         }
     }
-
+    
     struct Model {
         var habitStatistics: HabitStatistics?
         var userCounts: [UserCount] {
@@ -81,7 +81,7 @@ class HabitDetailViewController: UIViewController {
         collectionView.collectionViewLayout = createLayout()
         
         update()
-
+        
     }
     
     func update() {
@@ -107,24 +107,24 @@ class HabitDetailViewController: UIViewController {
         }
     }
     
-
+    
     func updateCollectionView() {
         let items = (self.model.habitStatistics?.userCounts.map
-           { ViewModel.Item.single($0) } ?? []).sorted(by: >)
-    
+        { ViewModel.Item.single($0) } ?? []).sorted(by: >)
+        
         dataSource.applySnapshotUsing(sectionIDs: [.remaining],
-           itemsBySection: [.remaining: items])
+                                      itemsBySection: [.remaining: items])
     }
     
     func createDataSource() -> DataSourceType {
         return DataSourceType(collectionView: collectionView)
-           { (collectionView, indexPath, grouping) ->
-           UICollectionViewCell? in
+        { (collectionView, indexPath, grouping) ->
+            UICollectionViewCell? in
             let cell =
-               collectionView.dequeueReusableCell(withReuseIdentifier:
-               "UserCount", for: indexPath) as!
-               PrimarySecondaryTextCollectionViewCell
-    
+                collectionView.dequeueReusableCell(withReuseIdentifier:
+                                                    "UserCount", for: indexPath) as!
+                PrimarySecondaryTextCollectionViewCell
+            
             switch grouping {
             case .single(let userStat):
                 cell.primaryTextLabel.text = userStat.user.name
@@ -132,29 +132,29 @@ class HabitDetailViewController: UIViewController {
             default:
                 break
             }
-    
+            
             return cell
         }
     }
- 
+    
     func createLayout() -> UICollectionViewCompositionalLayout {
         let itemSize =
-           NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-           heightDimension: .fractionalHeight(1))
+            NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                   heightDimension: .fractionalHeight(1))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         item.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 12,
-        bottom: 12, trailing: 12)
-    
+                                                     bottom: 12, trailing: 12)
+        
         let groupSize =
-           NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
-           heightDimension: .absolute(44))
+            NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                   heightDimension: .absolute(44))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize:
-           groupSize, subitem: item, count: 1)
-    
+                                                        groupSize, subitem: item, count: 1)
+        
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 20,
-           leading: 0, bottom: 20, trailing: 0)
-    
+                                                        leading: 0, bottom: 20, trailing: 0)
+        
         return UICollectionViewCompositionalLayout(section: section)
     }
 }
@@ -162,18 +162,18 @@ class HabitDetailViewController: UIViewController {
 extension HabitDetailViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
+        
         update()
-    
+        
         updateTimer = Timer.scheduledTimer(withTimeInterval: 1,
-           repeats: true) { _ in
+                                           repeats: true) { _ in
             self.update()
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-    
+        
         updateTimer?.invalidate()
         updateTimer = nil
     }

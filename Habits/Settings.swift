@@ -8,6 +8,7 @@
 import Foundation
 
 struct Settings {
+    
     static var shared = Settings()
     
     private let defaults = UserDefaults.standard
@@ -22,13 +23,13 @@ struct Settings {
     
     private func unarchiveJSON<T: Decodable>(key: String) -> T? {
         guard let string = defaults.string(forKey: key),
-            let data = string.data(using: .utf8) else {
-                return nil
+              let data = string.data(using: .utf8) else {
+            return nil
         }
         return try! JSONDecoder().decode(T.self, from: data)
     }
-
-
+    
+    
     var favoriteHabits: [Habit] {
         get {
             return unarchiveJSON(key: Setting.favoriteHabits) ?? []
@@ -47,13 +48,13 @@ struct Settings {
     
     mutating func toggleFavorite(_ habit: Habit) {
         var favorites = favoriteHabits
-    
+        
         if favorites.contains(habit) {
             favorites = favorites.filter { $0 != habit }
         } else {
             favorites.append(habit)
         }
-    
+        
         favoriteHabits = favorites
     }
     
@@ -69,16 +70,15 @@ struct Settings {
     
     mutating func toggleFollowed(user: User) {
         var updated = followedUserIDs
-    
+        
         if updated.contains(user.id) {
             updated = updated.filter { $0 != user.id }
         } else {
             updated.append(user.id)
         }
-    
+        
         followedUserIDs = updated
     }
-    
 }
 
 

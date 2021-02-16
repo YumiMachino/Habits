@@ -25,8 +25,8 @@ extension Color: Codable {
 extension Color {
     var uiColor: UIColor {
         return UIColor(hue: CGFloat(hue), saturation:
-           CGFloat(saturation), brightness: CGFloat(brightness),
-           alpha: 1)
+                        CGFloat(saturation), brightness: CGFloat(brightness),
+                       alpha: 1)
     }
 }
 

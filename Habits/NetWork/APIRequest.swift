@@ -39,7 +39,7 @@ extension APIRequest {
         components.port = port
         components.path = path
         components.queryItems = queryItems
-    
+        
         var request = URLRequest(url: components.url!)
         
         if let data = postData {
@@ -75,16 +75,16 @@ enum ImageRequestError: Error {
 
 extension APIRequest where Response == UIImage {
     func send(completion: @escaping (Result<Self.Response, Error>) ->
-       Void) {
+                Void) {
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let data = data,
-                let image = UIImage(data: data) {
+               let image = UIImage(data: data) {
                 completion(.success(image))
             } else if let error = error {
                 completion(.failure(error))
             } else {
                 completion(.failure(ImageRequestError
-                   .couldNotInitializeFromData))
+                                        .couldNotInitializeFromData))
             }
         }.resume()
     }
@@ -100,6 +100,6 @@ extension APIRequest {
 
 struct CombinedStatisticsRequest: APIRequest {
     typealias Response = CombinedStatistics
-
+    
     var path: String { "/combinedStats" }
 }

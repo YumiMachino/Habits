@@ -41,7 +41,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Habit" id="G6H-ML-bKW" customClass="PrimarySecondaryTextCollectionViewCell" customModule="Habits" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Habit" id="G6H-ML-bKW" customClass="SelectionIndicatingPrimarySecondaryTextCollectionViewCell" customModule="Habits" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Kq0-6Q-AQT">
@@ -150,7 +150,7 @@
                                     <outlet property="secondaryLabel" destination="FOt-px-x3f" id="NMz-rN-2rM"/>
                                 </connections>
                             </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FollowedUser" id="1FB-hq-00l" customClass="PrimarySecondaryTextCollectionViewCell" customModule="Habits" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="FollowedUser" id="1FB-hq-00l" customClass="FollowedUserCollectionViewCell" customModule="Habits" customModuleProvider="target">
                                 <rect key="frame" x="3" y="110" width="408" height="128"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="nCP-Hi-NKL">
@@ -164,25 +164,34 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Message" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FXY-lB-Uo3">
-                                            <rect key="frame" x="32" y="45" width="368" height="75"/>
+                                            <rect key="frame" x="32" y="45" width="368" height="18"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R2z-mN-keW">
+                                            <rect key="frame" x="20.5" y="115" width="367" height="13"/>
+                                            <color key="backgroundColor" systemColor="labelColor"/>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="FXY-lB-Uo3" firstAttribute="leading" secondItem="Hew-xa-GNg" secondAttribute="leading" constant="24" id="8PX-sT-b4S"/>
+                                        <constraint firstAttribute="bottom" secondItem="R2z-mN-keW" secondAttribute="bottom" id="Cdp-tG-EaN"/>
+                                        <constraint firstItem="R2z-mN-keW" firstAttribute="centerX" secondItem="nCP-Hi-NKL" secondAttribute="centerX" id="Df2-yU-Lh6"/>
                                         <constraint firstItem="FXY-lB-Uo3" firstAttribute="top" secondItem="Hew-xa-GNg" secondAttribute="bottom" constant="16" id="Qp1-Wu-mxd"/>
                                         <constraint firstItem="Hew-xa-GNg" firstAttribute="leading" secondItem="nCP-Hi-NKL" secondAttribute="leading" constant="8" id="TQ6-wH-2t6"/>
-                                        <constraint firstAttribute="bottom" secondItem="FXY-lB-Uo3" secondAttribute="bottom" constant="8" id="bIw-3r-lxe"/>
+                                        <constraint firstItem="R2z-mN-keW" firstAttribute="top" secondItem="FXY-lB-Uo3" secondAttribute="bottom" constant="52" id="fQw-ap-OyK"/>
                                         <constraint firstAttribute="trailing" secondItem="FXY-lB-Uo3" secondAttribute="trailing" constant="8" id="iO7-Tw-0qR"/>
                                         <constraint firstItem="Hew-xa-GNg" firstAttribute="top" secondItem="nCP-Hi-NKL" secondAttribute="top" constant="8" id="qtT-xS-Gh5"/>
+                                        <constraint firstItem="R2z-mN-keW" firstAttribute="width" secondItem="nCP-Hi-NKL" secondAttribute="width" multiplier="0.9" id="xMO-67-vCL"/>
                                     </constraints>
                                 </collectionViewCellContentView>
                                 <size key="customSize" width="408" height="128"/>
                                 <connections>
                                     <outlet property="primaryTextLabel" destination="Hew-xa-GNg" id="lIh-JC-a4v"/>
                                     <outlet property="secondaryTextLabel" destination="FXY-lB-Uo3" id="Kq4-AR-97O"/>
+                                    <outlet property="separatorLineHeightConstraint" destination="fQw-ap-OyK" id="80u-Pe-B2P"/>
+                                    <outlet property="separatorLineView" destination="R2z-mN-keW" id="IfL-zx-2dt"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -574,6 +583,9 @@
         <image name="house.fill" catalog="system" width="128" height="106"/>
         <image name="person.2.fill" catalog="system" width="128" height="80"/>
         <image name="star.fill" catalog="system" width="128" height="116"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
